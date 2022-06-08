@@ -4,16 +4,16 @@ _base_ = [
     '../base/schedule_1x.py',
     '../base/base_dataset.py'
 ]
-data_root = ''
+data_root = './'
 dataset_type = 'CocoDataset'
 img_norm_cfg = dict(
-    mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
+    type='Normalize', mean=[128, 128, 128], std=[11.58, 11.58, 11.58], to_rgb=True)
 
 category_list = ['rle_large', 'rle_small', 'rle_stomach']
 
 train_pipeline = [
     dict(type='LoadImageFromFile'),
-    dict(type='LoadAnnotations', with_bbox=True, with_mask=True,  poly2mask=True),
+    dict(type='LoadAnnotations', with_bbox=True, with_mask=True),
     dict(
         type='Resize',
         img_scale=(512, 512),
@@ -74,7 +74,7 @@ model = dict(
 
 log_config = dict(interval=25)
 
-load_from = 'checkpoint/mask_rcnn_r18_fpn_2x_coco_bbox_mAP-0.329__segm_mAP-0.301_20210909_112615-9c1ca240.pth'
+load_from = 'pretrained_model/mask_rcnn_r18_fpn_2x_coco_bbox_mAP-0.329__segm_mAP-0.301_20210909_112615-9c1ca240.pth'
 fp16 = dict(loss_scale=512.)
-optimizer = dict(type='SGD', lr=0.005, momentum=0.9, weight_decay=0.0001)
-runner = dict(type='EpochBasedRunner', max_epochs=12)
+optimizer = dict(type='SGD', lr=0.0025, momentum=0.9, weight_decay=0.0001)
+runner = dict(type='EpochBasedRunner', max_epochs=24)
