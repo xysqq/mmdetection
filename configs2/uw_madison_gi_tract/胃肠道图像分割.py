@@ -6,8 +6,7 @@ _base_ = [
 ]
 data_root = './'
 dataset_type = 'CocoDataset'
-img_norm_cfg = dict(
-    type='Normalize', mean=[128, 128, 128], std=[11.58, 11.58, 11.58], to_rgb=True)
+img_norm_cfg = dict(mean=[128, 128, 128], std=[11.58, 11.58, 11.58], to_rgb=True)
 
 category_list = ['rle_large', 'rle_small', 'rle_stomach']
 
@@ -20,7 +19,6 @@ train_pipeline = [
         ratio_range=[0.75, 1.25],
         multiscale_mode='range',
         keep_ratio=True),
-    dict(type='RandomCrop', crop_size=(512, 512)),
     dict(type='RandomFlip', flip_ratio=0.5),
     dict(type='Normalize', **img_norm_cfg),
     dict(type='Pad', size_divisor=32),
@@ -45,8 +43,8 @@ test_pipeline = [
 
 data = dict(
     samples_per_gpu=2,
-    workers_per_gpu=0,
-    persistent_workers=False,
+    workers_per_gpu=2,
+    persistent_workers=True,
     train=dict(
         classes=category_list,
         type=dataset_type,
