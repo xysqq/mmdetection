@@ -45,7 +45,7 @@ model = dict(
         bbox_head=dict(num_classes=num_classes),
         mask_head=dict(num_classes=num_classes)))
 
-log_config = dict(interval=5)
+log_config = dict(interval=50)
 
 load_from = r"D:\Data\pretrained_model\mask_rcnn_r50_fpn_mstrain-poly_3x_coco_20210524_201154-21b550bb.pth"
 
@@ -54,5 +54,6 @@ LoadCategoryList = None
 optimizer = dict(type='SGD', lr=0.0025, momentum=0.9, weight_decay=0.0001)
 
 runner = dict(
-    save_model_path=f"{save_model_path}/{project_path}", timestamp=timestamp)
+    save_model_path=f"{save_model_path}/{project_path}", timestamp=timestamp,  max_epochs=12)
+
 

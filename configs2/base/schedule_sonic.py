@@ -23,8 +23,6 @@ save_pipeline = [
 ]
 
 after_run_pipeline = [
-    dict(type='DeployModel'),
-    dict(type='EncryptModel'),
     dict(type='SaveLog', create_briefing=True),
 ]
 
