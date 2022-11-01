@@ -16,7 +16,7 @@ dataset_type = 'SonicDataset'
 img_scale = (512, 512)
 
 img_norm_cfg = dict(
-    mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
+    mean=[128.44, 128.44, 128.44], std=[102.23, 102.23, 102.23], to_rgb=True)
 
 train_pipeline = [
     dict(type='LoadImageFromFile'),
@@ -50,22 +50,17 @@ test_pipeline = [
 ]
 
 train_init_pipeline = [
-    dict(type='CopyData2Local', target_dir='/data/公共数据缓存', run_rsync=True),
     dict(type='LoadCategoryList', ignore_labels=['屏蔽']),
     dict(type='LoadPathList'),
     dict(type='SplitData', start=0, end=0.8, key='json_path_list'),
     dict(type='LoadJsonDataList'),
     dict(type='LoadLabelmeDataset'),
     dict(type='StatCategoryCounter'),
-    dict(type='CopyData', times=1),
     dict(type='Labelme2Coco'),
-    # dict(type='LoadOKPathList'),
-    # dict(type='ShuffleCocoImage'),
     dict(type='SaveJson'),
 ]
 
 test_init_pipeline = [
-    dict(type='CopyData2Local', target_dir='/data/公共数据缓存', run_rsync=False),
     dict(type='LoadCategoryList', ignore_labels=['屏蔽']),
     dict(type='LoadPathList'),
     dict(type='SplitData', start=0.8, end=1, key='json_path_list'),
