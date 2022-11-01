@@ -523,7 +523,7 @@ class CalculateMeanAndStd:
         std = np.std(imgs, axis=(0, 2, 3), where=imgs > 0)
         logger.info("计算均值和标注差中")
         logger.info(
-            f"图像列表的平均值为{[round(i,2) for i in list(mean)]}，标准差为{[round(i,2) for i in list(std)]}"
+            f"图像列表的平均值为{[np.round(i,2) for i in list(mean)]}，标准差为{[np.round(i,2) for i in list(std)]}"
         )
 
         return results
