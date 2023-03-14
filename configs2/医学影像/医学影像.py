@@ -7,12 +7,12 @@ _base_ = [
     '../base/schedule_sonic.py', '../base/base_sonic_dataset.py'
 ]
 
-label_path = r"D:\Data\label.ini"
+label_path = r"/home/xys/Data/label.ini"
 
-dataset_path_list = ["D:/Data/ct_images"]
+dataset_path_list = ["/home/xys/Data/images"]
 
-badcase_path = r'D:/Data/过检漏检'
-save_model_path = r'D:/Data/模型备份'
+badcase_path = r'/home/xys/Data/过检漏检'
+save_model_path = r'/home/xys/Data/模型备份'
 project_path = '医学影像'
 timestamp = time.strftime('%Y%m%d_%H%M%S', time.localtime())
 
@@ -47,13 +47,9 @@ model = dict(
 
 log_config = dict(interval=50)
 
-load_from = r"D:\Data\pretrained_model\mask_rcnn_r50_fpn_mstrain-poly_3x_coco_20210524_201154-21b550bb.pth"
+load_from = 'https://download.openmmlab.com/mmdetection/v2.0/mask_rcnn/mask_rcnn_r50_fpn_mstrain-poly_3x_coco/mask_rcnn_r50_fpn_mstrain-poly_3x_coco_20210524_201154-21b550bb.pth'
 
 LoadCategoryList = None
 
-optimizer = dict(type='SGD', lr=0.0025, momentum=0.9, weight_decay=0.0001)
-
 runner = dict(
-    save_model_path=f"{save_model_path}/{project_path}", timestamp=timestamp,  max_epochs=12)
-
-
+    save_model_path=f"{save_model_path}/{project_path}", timestamp=timestamp, max_epochs=12)

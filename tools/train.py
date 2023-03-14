@@ -111,7 +111,7 @@ def main():
     cfg = Config.fromfile(args.config)
 
     # replace the ${key} with the value of cfg.key
-    # cfg = replace_cfg_vals(cfg)
+    cfg = replace_cfg_vals(cfg)
 
     # update data root according to MMDET_DATASETS
     update_data_root(cfg)

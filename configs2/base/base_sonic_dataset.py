@@ -1,7 +1,6 @@
 custom_imports = dict(
     imports=[
-        'sonic_ai.encrypt_epoch_based_runner',
-        'sonic_ai.load_3D_image_from_file', 'sonic_ai.sonic_dataset',
+        'sonic_ai.sonic_dataset',
         'sonic_ai.sonic_epoch_based_runner',
         'sonic_ai.pipelines.init_pipeline', 'sonic_ai.pipelines.eval_pipeline',
         'sonic_ai.pipelines.save_pipeline',
@@ -79,13 +78,12 @@ eval_pipeline = [
 
 data = dict(
     persistent_workers=True,
-    samples_per_gpu=2,
-    workers_per_gpu=2,
+    samples_per_gpu=4,
+    workers_per_gpu=4,
     train=dict(
         type=dataset_type,
         pipeline=train_pipeline,
         init_pipeline=train_init_pipeline),
-    train_dataloader=dict(class_aware_sampler=dict(num_sample_class=1)),
     val=dict(
         type=dataset_type,
         pipeline=test_pipeline,
