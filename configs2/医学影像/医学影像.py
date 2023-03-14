@@ -7,7 +7,7 @@ _base_ = [
     '../base/schedule_sonic.py', '../base/base_sonic_dataset.py'
 ]
 
-label_path = r"/home/xys/Data/label.ini"
+label_path = r"/home/xys/Data/label.txt"
 
 dataset_path_list = ["/home/xys/Data/images"]
 
