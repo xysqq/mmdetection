@@ -12,7 +12,7 @@ custom_imports = dict(
 
 dataset_type = 'SonicDataset'
 
-img_scale = (512, 512)
+img_scale = (1024, 1024)
 
 img_norm_cfg = dict(
     mean=[128.44, 128.44, 128.44], std=[102.23, 102.23, 102.23], to_rgb=True)
@@ -84,6 +84,7 @@ data = dict(
         type=dataset_type,
         pipeline=train_pipeline,
         init_pipeline=train_init_pipeline),
+    train_dataloader=dict(class_aware_sampler=dict(num_sample_class=1)),
     val=dict(
         type=dataset_type,
         pipeline=test_pipeline,
