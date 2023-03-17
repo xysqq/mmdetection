@@ -40,15 +40,10 @@ class LoadCategoryList:
             ignore_labels = self.ignore_labels
         results['ignore_labels'] = ignore_labels
 
-        with open(label_path, encoding='utf-8') as f:
-            lines = f.readlines()
-        category_map = {}
-        for line in lines:
-            line2 = line.replace('\n', '').split()
-            if len(line2) == 2:
-                category_map[line2[0]] = line2[1]
-            else:
-                print(f'解析类别映射错误：{line}')
+        category_map = {
+            ' '.join(x.strip().split()[:-1]): x.strip().split(' ')[-1].strip()
+            for x in open(r"/home/xys/Data/label.txt", encoding='utf-8').readlines()
+        }
 
         category_list = list(category_map.values())
         category_list = sorted(set(category_list), key=category_list.index)
