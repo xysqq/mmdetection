@@ -9,7 +9,7 @@ _base_ = [
 
 label_path = r"/home/xys/Data/label.txt"
 
-dataset_path_list = ["/home/xys/Data/images"]
+dataset_path_list = ["/home/xys/Data/images2"]
 
 badcase_path = r'/home/xys/Data/过检漏检'
 save_model_path = r'/home/xys/Data/模型备份'
