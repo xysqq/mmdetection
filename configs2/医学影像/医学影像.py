@@ -4,7 +4,7 @@ from sonic_ai.pipelines.init_pipeline import LoadCategoryList
 
 _base_ = [
     '../base/mask_rcnn_r50_fpn.py', '../base/default_runtime.py',
-    '../base/schedule_2x.py', '../base/base_sonic_dataset.py'
+    '../base/schedule_1x.py', '../base/base_sonic_dataset.py'
 ]
 
 label_path = r"/home/xys/Data/label.txt"
@@ -52,4 +52,4 @@ load_from = 'https://download.openmmlab.com/mmdetection/v2.0/mask_rcnn/mask_rcnn
 LoadCategoryList = None
 
 runner = dict(
-    save_model_path=f"{save_model_path}/{project_path}", timestamp=timestamp, max_epochs=24)
+    save_model_path=f"{save_model_path}/{project_path}", timestamp=timestamp, max_epochs=12)

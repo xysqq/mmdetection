@@ -35,7 +35,7 @@ class LoadCategoryList:
         label_path = results['label_path']
         if results.get('ignore_labels', False):
             ignore_labels = results['ignore_labels'] if results[
-                'ignore_labels'] is not None else self.ignore_labels
+                                                            'ignore_labels'] is not None else self.ignore_labels
         else:
             ignore_labels = self.ignore_labels
         results['ignore_labels'] = ignore_labels
@@ -180,8 +180,8 @@ class LoadLabelmeDataset:
             x for x in json_data_list
             if all(y['label'] in category_map
                    for y in x['shapes']) and not all(
-                       category_map[y['label']] in ignore_labels
-                       for y in x['shapes'])
+                category_map[y['label']] in ignore_labels
+                for y in x['shapes'])
         ]
         logger.info(f'筛选后的样本数量：{len(new_data_list)}')
         logger.info(f'路径样例：{new_data_list[0]["imagePath"]}')
@@ -237,7 +237,7 @@ class SplitData:
     def __call__(self, results):
         if results.get('start', False):
             start = results['start'] if results[
-                'start'] is not None else self.start
+                                            'start'] is not None else self.start
         else:
             start = self.start
         if results.get('end', False):
@@ -263,6 +263,54 @@ class SplitData:
 
 
 @PIPELINES.register_module()
+class SplitDataWithPatientId:
+
+    def __init__(
+            self, start=0, end=1, seed=42, shuffle=True):
+        self.start = start
+        self.end = end
+        self.seed = seed
+        self.shuffle = shuffle
+
+    def __call__(self, results):
+        if results.get('start', False):
+            start = results['start'] if results[
+                                            'start'] is not None else self.start
+        else:
+            start = self.start
+        if results.get('end', False):
+            end = results['end'] if results['end'] is not None else self.end
+        else:
+            end = self.end
+
+        json_path_list = results['json_path_list']
+
+        logger = get_root_logger()
+        logger.propagate = False
+        logger.info('根据患者id划分训练集和验证集')
+
+        patient_id_list = list(set([Path(json_path).name.split('_')[0] for json_path in json_path_list]))
+        n = len(patient_id_list)
+        start_index, end_index = int(start * n), int(end * n)
+        split_patient_id_set = set(patient_id_list[start_index:end_index])
+        logger.info(f"共有患者{n}位，从中选择{len(list(split_patient_id_set))}位，患者id为{split_patient_id_set}")
+
+        split_json_path_list = [json_path for json_path in json_path_list if
+                                Path(json_path).name.split('_')[0] in split_patient_id_set]
+        if self.shuffle:
+            state = random.getstate()
+            random.seed(self.seed)
+            random.shuffle(split_json_path_list)
+            random.setstate(state)
+        results['json_path_list'] = split_json_path_list
+        return results
+
+    def __repr__(self):
+        repr_str = self.__class__.__name__
+        return repr_str
+
+
+@PIPELINES.register_module()
 class CopyData:
 
     def __init__(self, times, key='json_data_list'):
@@ -272,7 +320,7 @@ class CopyData:
     def __call__(self, results, *args, **kwargs):
         if results.get('times', False):
             times = results['times'] if results[
-                'times'] is not None else self.times
+                                            'times'] is not None else self.times
         else:
             times = self.times
         results[self.key] *= times
@@ -351,7 +399,7 @@ class Labelme2Coco:
         images = []
         obj_count = 0
         if (dist.is_initialized()
-                and dist.get_rank() == 0) or not dist.is_initialized():
+            and dist.get_rank() == 0) or not dist.is_initialized():
             disable = False
         else:
             disable = True
@@ -509,7 +557,7 @@ class CalculateMeanAndStd:
                         cv2.imdecode(
                             np.fromfile(
                                 json_data['imagePath'], dtype=np.uint8),
-                            cv2.IMREAD_UNCHANGED), self.img_scale + (3, ))
+                            cv2.IMREAD_UNCHANGED), self.img_scale + (3,))
                 ] for json_data in tqdm(json_data_list)
             ]
 
@@ -518,7 +566,7 @@ class CalculateMeanAndStd:
         std = np.std(imgs, axis=(0, 2, 3), where=imgs > 0)
         logger.info("计算均值和标注差中")
         logger.info(
-            f"图像列表的平均值为{[np.round(i,2) for i in list(mean)]}，标准差为{[np.round(i,2) for i in list(std)]}"
+            f"图像列表的平均值为{[np.round(i, 2) for i in list(mean)]}，标准差为{[np.round(i, 2) for i in list(std)]}"
         )
 
         return results
@@ -645,6 +693,7 @@ class CopyData2Local:
         repr_str = self.__class__.__name__
         return repr_str
 
+
 @PIPELINES.register_module()
 class LoadXndMutilChannelImgPathList:
 
@@ -670,7 +719,7 @@ class LoadXndMutilChannelImgPathList:
             for idx, image_path in enumerate(json_data['image_path_list']):
                 if not image_path.endswith(
                         'albedo.jpg') and not image_path.endswith(
-                            'normal.jpg'):
+                    'normal.jpg'):
                     new_image_path_list.append(image_path)
                     new_image_path_list = sorted(
                         new_image_path_list,

@@ -51,7 +51,7 @@ test_pipeline = [
 train_init_pipeline = [
     dict(type='LoadCategoryList', ignore_labels=['屏蔽']),
     dict(type='LoadPathList'),
-    dict(type='SplitData', start=0, end=0.8, key='json_path_list'),
+    dict(type='SplitDataWithPatientId', start=0, end=0.8),
     dict(type='LoadJsonDataList'),
     dict(type='LoadLabelmeDataset'),
     dict(type='StatCategoryCounter'),
@@ -62,7 +62,7 @@ train_init_pipeline = [
 test_init_pipeline = [
     dict(type='LoadCategoryList', ignore_labels=['屏蔽']),
     dict(type='LoadPathList'),
-    dict(type='SplitData', start=0.8, end=1, key='json_path_list'),
+    dict(type='SplitDataWithPatientId', start=0.8, end=1),
     dict(type='LoadJsonDataList'),
     dict(type='LoadLabelmeDataset'),
     dict(type='Labelme2Coco'),
@@ -84,7 +84,7 @@ data = dict(
         type=dataset_type,
         pipeline=train_pipeline,
         init_pipeline=train_init_pipeline),
-    train_dataloader=dict(class_aware_sampler=dict(num_sample_class=1)),
+    # train_dataloader=dict(class_aware_sampler=dict(num_sample_class=1)),
     val=dict(
         type=dataset_type,
         pipeline=test_pipeline,
