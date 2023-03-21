@@ -236,8 +236,7 @@ class SplitData:
 
     def __call__(self, results):
         if results.get('start', False):
-            start = results['start'] if results[
-                                            'start'] is not None else self.start
+            start = results['start'] if results['start'] is not None else self.start
         else:
             start = self.start
         if results.get('end', False):
@@ -274,8 +273,7 @@ class SplitDataWithPatientId:
 
     def __call__(self, results):
         if results.get('start', False):
-            start = results['start'] if results[
-                                            'start'] is not None else self.start
+            start = results['start'] if results['start'] is not None else self.start
         else:
             start = self.start
         if results.get('end', False):
