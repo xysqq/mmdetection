@@ -11,9 +11,8 @@ label_path = r"/home/xys/Data/label.txt"
 
 dataset_path_list = ["/home/xys/Data/images_ct"]
 
-badcase_path = r'/home/xys/Data/过检漏检'
 save_model_path = r'/home/xys/Data/模型备份'
-project_path = '医学影像'
+project_path = '医学影像_单通道'
 timestamp = time.strftime('%Y%m%d_%H%M%S', time.localtime())
 
 num_classes = len(
@@ -31,12 +30,10 @@ data = dict(
     val=dict(
         label_path=label_path,
         dataset_path_list=dataset_path_list,
-        copy_pred_bad_case_path=f"{badcase_path}/{project_path}",
         timestamp=timestamp),
     test=dict(
         label_path=label_path,
         dataset_path_list=dataset_path_list,
-        copy_pred_bad_case_path=f"{badcase_path}/{project_path}",
         timestamp=timestamp,
     ))
 
